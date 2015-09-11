@@ -23,7 +23,6 @@ else {
 		$network_type = $network_data['network_type'];
 				
 		$user_query = mysql_query("SELECT * FROM `users` LEFT JOIN `companies` on `users`.`user_company` LIKE `companies`.`company_key`  WHERE `user_status` LIKE 'active' AND `user_key` LIKE '$network_user' AND `user_key` NOT LIKE '$user_key' ORDER BY `user_name` ASC LIMIT 0, 1");
-		$user_count = mysql_num_rows($user_query);
 		while($row = mysql_fetch_array($user_query)) {	
 			$user_name = $row['user_name'];
 			$user_key = $row['user_key'];
@@ -36,14 +35,19 @@ else {
 			$user_status = $row['user_status'];
 			$user_type = $row['user_type'];
 			
-			$user_data[] = array('name' => $user_name, 'profile' => $user_profile[0], 'key' => $user_key, 'location' => $user_location, 'headline' => $user_headline, 'company' => $user_company, 'status' => $user_status, 'network' => $network_type);
+			if (!in_array($user_key, $user_existing)) {	
+				$user_data[] = array('name' => $user_name, 'profile' => $user_profile[0], 'key' => $user_key, 'location' => $user_location, 'headline' => $user_headline, 'company' => $user_company, 'status' => $user_status, 'network' => $network_type);
+				
+				$user_existing[] = $connection_user;
+				$user_count += 1;
+			}
 			
 		}
 			
 	}
 	
 	$json_status = 'returned ' . $user_count . ' users';
-	$json_output[] = array('status' => $json_status, 'sucsess' => 'true', 'results' => $user_data);
+	$json_output[] = array('status' => $json_status, 'sucsess' => 'true', 'users' => $user_data);
 	echo json_encode($json_output);
 	exit;
 	

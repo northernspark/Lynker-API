@@ -92,8 +92,11 @@ else {
 		$user_name = array('fullname' => $passed_name, 'firstname' => $user_name[0], 'lastname' => $user_name[1]);
 		$user_output = array('key' => $user_key, 'name' => $user_name, 'type' => $passed_type, 'about' => $user_details, 'company' => $passed_company, 'emails' => $user_emails);
 		
+		//$notification_user = array($user_key);
+		//$notification_post = post_notification('Welcome to [Lynker]. Take the tour...', $notification_user, 'welcome', 'viewed', '');
+		
 		$notification_user = array($user_key);
-		$notification_post = post_notification('Welcome to [Lynker]. Take the tour...', $notification_user, 'welcome', 'viewed', '');
+		$notification_post = post_notification('You are now connected with [Joe Barbour] Co-Founder of [Lynker]. Tap to say hello!', 'user_b4prhitdEHQQvaS5Qu6YmoA5aXTFQLIRFXcM', 'respond', 'viewed', '');
 		
 		$connection_key = "con_" . generate_key();
 		$connection_query = mysql_query("INSERT INTO `connections` (`connection_id`, `connection_timestamp`, `connection_key`, `connection_sender_key`, `connection_sender_privileges`, `connection_sender_notifications`, `connection_recipient_key`, `connection_recipient_privileges`, `connection_recipient_notifications`, `connection_type`, `connection_hidden`, `connection_status`) VALUES (NULL, CURRENT_TIMESTAMP, '$connection_key', 'user_b4prhitdEHQQvaS5Qu6YmoA5aXTFQLIRFXcM', 'basic,twitter,instagram,angellist,work_email', 'false', '$user_key' ,'basic,work_email', 'false', 'user', 'false', 'accepted');");

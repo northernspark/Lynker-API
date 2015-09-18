@@ -47,9 +47,11 @@ elseif ($connection_count == 1) {
 			$user_type = $row['user_type'];		
 			$user_emails = explode(",", $row['user_emails']);
 			$user_location = $row['user_location'];			
+			$user_latitude = $row['user_latitude'];			
+			$user_longitude = $row['user_longitude'];							
 			$user_gender = $row['user_gender'];			
 			$user_dob = $row['user_dob'];			
-			$user_bio = $row['user_summary'];				
+			$user_bio = trim($row['user_summary']);				
 			$user_profile = explode(",", $row['user_profile']);			
 			$user_headline = $row['user_headline'];				
 			$user_website = $row['user_website'];				
@@ -120,9 +122,14 @@ elseif ($connection_count == 1) {
 			}
 			else $skype_data = array("status" => "not available");
 			
+			if (in_array('location', $connection_privileges)) {	
+				$location_data = array("latitude" => $user_latitude, "longitude" => $user_longitude, "status" => "ok");
+			}
+			else $location_data = array("status" => "not available");
+			
 			if (empty($network_data)) $network_data = array();
 			
-			$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'company' => $company_data, 'basic' => $basics_data, 'skype' => $skype_data, 'scope' => $connection_privileges, 'phone' => $phone_data, 'email' => $email_data, 'address' => $address_data, 'networks' => $network_data);
+			$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'company' => $company_data, 'basic' => $basics_data, 'skype' => $skype_data, 'scope' => $connection_privileges, 'phone' => $phone_data, 'email' => $email_data, 'address' => $address_data, 'networks' => $network_data, 'location' => $location_data);
 						
 		}
 		

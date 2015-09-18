@@ -8,14 +8,14 @@ include '../lib/slack.php';
 
 header('Content-Type: application/json');
 
-$passed_data = json_decode(file_get_contents('php://input'), true);
-$passed_content = str_replace("'", "&#39;" ,$passed_data['content']);
-$passed_data = str_replace("'", "&#39;" ,$passed_data['data']);
-$passed_type = $passed_data['type'];
+$message_data = json_decode(file_get_contents('php://input'), true);
+$message_content = str_replace("'", "&#39;" ,$message_data['content']);
+$message_userdata = str_replace("'", "&#39;" ,$message_data['data']);
+$message_type = $message_data['type'];
 
-if (empty($passed_type)) $passed_type = "feedback";
+if (empty($message_type)) $message_type = "feedback";
 
-if (empty($passed_content)) {
+if (empty($message_content)) {
 	$json_status = 'content required';
 	$json_output[] = array('status' => $json_status, 'sucsess' => 'false');
 	echo json_encode($json_output);
@@ -23,7 +23,7 @@ if (empty($passed_content)) {
 	
 }
 else {
-	$slack_message = "*" . $user_name . "*(" . $user_primary_email . ") posted a " . ucfirst($passed_type) . " message - _'" . $passed_content . "'_";
+	$slack_message = "*" . $user_name . "*(" . $user_primary_email . ") posted a " . ucfirst($message_type) . " message - _'" . $message_content . "'_";
 	$slack_image = $user_profile[0];
 	$slack_post = post_slack($slack_message, 'general', $slack_image);
 		
@@ -32,13 +32,13 @@ else {
 		$email_address[] = end(explode("|", $row['user_emails']));			
 			
 	}
-		
-	$email_body = "" . $passed_content . " <strong><p>- " . $user_name . "</strong> (" . $user_primary_email . ")<p><p><pre>" . $passed_data . "</pre>";
-	$email_subject = "Lynker " . $passed_type . " message from " . $user_name;
+			
+	$email_body = "" . $message_content . " <strong><p>- " . $user_name . "</strong> (" . $user_primary_email . ")<p><p><pre>" . $message_userdata . "</pre>";
+	$email_subject = "Lynker " . $message_type . " ticket from " . $user_name;
 	$email_post = email_user($email_address, $email_subject, $email_body, 'true');
 	
 	$json_status = 'message sent';
-	$json_output[] = array('status' => $json_status, 'sucsess' => 'true');
+	$json_output[] = array('status' => $json_status, 'sucsess' => 'true', 'type' => $message_type);
 	echo json_encode($json_output);
 	exit;
 	

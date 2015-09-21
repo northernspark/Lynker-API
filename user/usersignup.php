@@ -69,7 +69,7 @@ else {
 	
 	$user_query = mysql_query("SELECT * FROM `users` WHERE `user_emails` LIKE '%$passed_email%'  LIMIT 0, 1");
 	$user_count = mysql_num_rows($user_query);
-	$user_data = mysql_fetch_assoc($user_query);
+	$user_data = mysql_fetch_assoc($user_query);	
 		
 	if ($user_count == 0) {
 		$user_insert = mysql_query("INSERT INTO `users` (`user_id`, `user_signup`, `user_updated`, `user_key`, `user_type`, `user_status`, `user_verified`, `user_name`, `user_nickname`, `user_emails`, `user_password`, `user_latitude`, `user_longitude`, `user_gender`, `user_dob`, `user_summary`, `user_profile`, `user_headline`, `user_location`, `user_company`, `user_website`, `user_skype`, `user_phones`, `user_address`, `user_notifications`, `user_invited`) VALUES (NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '$user_key', '$passed_type', 'active', 'false', '$passed_name', '', '$passed_email', '$passed_password', '0.0000000', '0.0000000', '', '0000-00-00 00:00:00.000000', '$passed_bio', '$passed_profile', '$passed_headline', '$passed_location', '$passed_company', '$passed_website', '', '', '', '$user_notifications', '');");
@@ -87,10 +87,12 @@ else {
 		$token_query = mysql_query("INSERT INTO `tokens` (`token_id`, `token_expiry`, `token_queryed`, `token_status`, `token_access`, `token_user`, `token_device`) VALUES (NULL, CURRENT_TIMESTAMP, '$token_expiry', 'active', '$token_generated', '$user_key', '$passed_device');");
 		$token_output = array('token' => $token_generated, 'expiry' => $token_query);
 			
+		
+		$user_directory = "http://lynkerapp.com/" . substr(end(explode("_", $user_key)) , 0, 8);		
 		$user_notifications = array('');		
 		$user_details = array('location' => $passed_location, 'summary' => $passed_bio, 'profile' => $user_profile, 'website' => $passed_website, 'headline' => $passed_headline);
 		$user_name = array('fullname' => $passed_name, 'firstname' => $user_name[0], 'lastname' => $user_name[1]);
-		$user_output = array('key' => $user_key, 'name' => $user_name, 'type' => $passed_type, 'about' => $user_details, 'company' => $passed_company, 'emails' => $user_emails);
+		$user_output = array('key' => $user_key, 'name' => $user_name, 'type' => $passed_type, 'about' => $user_details, 'company' => $passed_company, 'emails' => $user_emails, 'directory' => $user_directory);
 		
 		//$notification_user = array($user_key);
 		//$notification_post = post_notification('Welcome to [Lynker]. Take the tour...', $notification_user, 'welcome', 'viewed', '');

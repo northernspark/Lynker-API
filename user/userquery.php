@@ -41,6 +41,7 @@ elseif ($connection_count == 1) {
 	if ($user_count == 1) {
 		while($row = mysql_fetch_array($user_query)) {
 			$user_key = $row['user_key'];
+			$user_directory = "lynkerapp.com/" . substr(end(explode("_", $row['user_key'])) , 0, 8);	
 			$user_names = explode(" ", $row['user_name']);
 			$user_name = $row['user_name'];
 			$user_username = $row['user_nickname'];					
@@ -81,7 +82,7 @@ elseif ($connection_count == 1) {
 			else $company_data = array("status" => "not available");
 			
 			if (in_array('basic', $connection_privileges)) {	
-				$basics_data = array("gender" => $user_gender, "birthday" => $user_dob, "summary" => $user_bio, "headline" => $user_headline, "location" => $user_location, "website" =>  $user_website, 'username' => $user_username, "status" => "ok");
+				$basics_data = array("gender" => $user_gender, "birthday" => $user_dob, "summary" => $user_bio, "headline" => $user_headline, "location" => $user_location, "website" =>  $user_website, 'username' => $user_username, 'directory' => $user_directory, "status" => "ok");
 			}
 			else $basics_data = array("status" => "not available");
 			

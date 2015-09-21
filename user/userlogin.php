@@ -32,6 +32,7 @@ else {
 	if ($user_count == 1) {
 		while($row = mysql_fetch_array($user_query)) {	
 			$user_key = $row['user_key'];
+			$user_directory = "http://lynkerapp.com/" . substr(end(explode("_", $row['user_key'])) , 0, 8);
 			$user_names = explode(" ", $row['user_name']);
 			$user_name = $row['user_name'];
 			$user_type = $row['user_type'];		
@@ -72,9 +73,10 @@ else {
 				$network_key = $row['network_key'];
 				$network_username = $row['network_username'];
 				$network_page = $row['network_page'];		
+				$network_token = $row['network_token'];					
 				$network_objects = explode(",", $row['network_data']);
 						
-				$network_data = array('username' => $network_username, 'data' => $network_objects, 'key' => $network_key, 'page' => $network_page);	
+				$network_data = array('username' => $network_username, 'data' => $network_objects, 'key' => $network_key, 'page' => $network_page, 'access' => $network_token);	
 				$user_networks[] = array($network_type => $network_data);
 				
 			}
@@ -82,7 +84,7 @@ else {
 			$user_contacts = array('skype' => $user_skype, 'address' => $user_address, 'phones' => $user_phones, 'emails' => $user_emails);
 			$user_details = array('dob' => $user_dob ,'location' => $user_location, 'summary' => $user_bio, 'gender' => $user_gender, 'profile' => $user_profile, 'headline' => $user_headline, 'website' => $user_website);
 			$user_name = array('fullname' => $user_name, 'firstname' => $user_names[0], 'lastname' => $user_names[1]);
-			$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'about' => $user_details, 'company' => $company_data, 'contact' => $user_contacts, 'notifications' => $user_notifications, 'networks' => $user_networks);
+			$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'about' => $user_details, 'company' => $company_data, 'contact' => $user_contacts, 'notifications' => $user_notifications, 'networks' => $user_networks, 'directory' => $user_directory);
 		}
 		
 		$user_update = mysql_query("UPDATE `users` SET `user_updated` = CURRENT_TIMESTAMP WHERE `user_key` LIKE '$user_key';");

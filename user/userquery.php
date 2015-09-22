@@ -41,10 +41,11 @@ elseif ($connection_count == 1) {
 	if ($user_count == 1) {
 		while($row = mysql_fetch_array($user_query)) {
 			$user_key = $row['user_key'];
-			$user_directory = "lynkerapp.com/" . substr(end(explode("_", $row['user_key'])) , 0, 8);	
 			$user_names = explode(" ", $row['user_name']);
 			$user_name = $row['user_name'];
-			$user_username = $row['user_nickname'];					
+			$user_username = $row['user_nickname'];		
+			if (empty($user_username)) $user_directory = "http://lynkerapp.com/" . substr(end(explode("_", $row['user_key'])) , 0, 8);	
+			else $user_directory = "http://lynkerapp.com/" . $user_username;
 			$user_type = $row['user_type'];		
 			$user_emails = explode(",", $row['user_emails']);
 			$user_location = $row['user_location'];			

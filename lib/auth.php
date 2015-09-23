@@ -53,6 +53,9 @@ if (!in_array($current_file, $auth_exclude)) {
 				$user_gender = $row['user_gender'];		
 				$user_name = $row['user_name'];
 				$user_profiles = explode(",", $row['user_profile']);
+				$user_username = $row['user_nickname'];		
+				if (empty($user_username)) $user_directory = "http://lynkerapp.com/" . substr(end(explode("_", $row['user_key'])) , 0, 8);	
+				else $user_directory = "http://lynkerapp.com/" . $user_username;
 						
 				$user_type = $row['user_type'];
 				$user_notificationstype = explode(",", $row['user_notifications']);

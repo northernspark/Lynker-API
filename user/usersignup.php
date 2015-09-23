@@ -59,7 +59,7 @@ else {
 				
 			$invited_email = end(explode("]", $user_emails[0]));
 			$invited_name = explode(" ", $invited_name);		
-			$invited_emailbody = "Hi <strong>" . $invited_name[0] . "</strong>, <p><strong>" . $passed_name . "</strong> has joined you on a path to greatness by joining Lynker!";
+			$invited_emailbody = "<strong>" . $passed_name . "</strong> has joined you on a path to greatness by joining Lynker!";
 			$invited_emailsubject = "A friend joined Lynker!";
 			$invited_emailpost = email_user($invited_email, $invited_emailsubject, $invited_emailbody, 'false');
 		
@@ -110,7 +110,7 @@ else {
 		
 		$email_address = array(end(explode("|", $user_emails[0])));			
 		$email_name = explode(" ", $passed_name);		
-		$email_body = "Hi <strong>" . $email_name[0] . "</strong>, <p>Thanks for downloading Lynker!<p>The concept behind Lynker was to reinvent not only the address book but the way people connect and exchange personal details. With that in mind we have come up with a solution we believe to be super easy, fast and even fun!<p>So now you have signed up to Lynker now what you ask? Well we recommend you firstly build up your profile, add your phone number, Skype, Facebook etc and the it's time to start sharing them with people.<p>THEN, it's time to start connecting! You of course can connect with people in you existing address book just by going to invite. You can also invite people by email but the best way is using 'nearby'. Nearby allow you with twos tap to connect with people in close proximity to you. Amazing right?Thanks for downloading Lynker, and if you have any questions please either reply to this email or send a message via the feedback section in the app<p><p>If you have any questions about this email or Lynker in general just reply to this email.<p><p>Kind Regards, <br/> - <strong>Joe</strong> (Co-founder of Lynker)<p><p>";
+		$email_body = "Thanks for downloading Lynker!<p>The concept behind Lynker was to reinvent not only the address book but the way people connect and exchange personal details. With that in mind we have come up with a solution we believe to be super easy, fast and even fun!<p>So now you have signed up to Lynker now what you ask? Well we recommend you firstly build up your profile, add your phone number, Skype, Facebook etc and the it's time to start sharing them with people.<p>THEN, it's time to start connecting! You of course can connect with people in you existing address book just by going to invite. You can also invite people by email but the best way is using 'nearby'. Nearby allow you with twos tap to connect with people in close proximity to you. Amazing right?Thanks for downloading Lynker, and if you have any questions please either reply to this email or send a message via the feedback section in the app<p><p>If you have any questions about this email or Lynker in general just reply to this email.<p><p>Kind Regards, <br/> - <strong>Joe</strong> (Co-founder of Lynker)<p><p>";
 		$email_post = email_user($email_address, "Welcome to Lynker", $email_body, 'true');
 		
 		$json_status =  $passed_email . ' added';

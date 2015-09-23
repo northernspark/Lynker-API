@@ -49,10 +49,16 @@ else {
 				if ($passed_response == "accepted")	{	
 					$recipient_name = $recipient_data['user_name'];
 					$recipient_key = array($recipient_data['user_key']);
-					
+					$recipient_emails[] = end(explode("|" , reset(explode(",", $recipient_data['user_emails']))));
+									
 					$notification_message = '[' . $user_name . '] accepted your invite to connect';
 					$notification_post = post_notification($notification_message, $recipient_key, 'response', 'pending', $user_key);
 
+					$email_body .= "<strong>" . $user_name . "</strong> (" . $user_primary_email . ") has accepted your invitation to connect. You can now view their profile in the Lynker app! <p>";
+					$email_body .= "<div style='margin-top:50px; margin-bottom:30px; font-weight:400; font-size:11px;' align='center'><a href='" . $user_directory . "' target='_blank' style='padding:14px; text-decoration:none; color:white; background-color:#F23E5B; border-radius:4;'>Open " . reset(explode(" ", $user_name)) . "'s Profile</a></div>";
+					$email_recipient = $recipient_emails;
+					$email_subject = "You are now connected with " . $user_name . "";
+					$email_post = email_user($email_recipient, $email_subject, $email_body, 'true');
 				}
 				
 				$json_status = 'invitation updated';

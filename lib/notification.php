@@ -64,13 +64,11 @@ function post_notification($message, $users, $type, $status, $data) {
 									
 						
 					}
-					else return array('status' => 'notification not added - unknown error', 'sucsess' => 'false');
-				
+					
 				}
 				else {
 					$add_notification = mysql_query("UPDATE `notifications` SET `notification_timestamp` = CURRENT_TIMESTAMP, `notification_status` = 'pending' WHERE `notification_key` LIKE '$existing_key';");
-					if	($add_notification) return array('status' => 'notification updated', 'sucsess' => 'true');
-					else return array('status' => 'notification not updated - unknown error', 'sucsess' => 'false');
+					if	($add_notification) $add_sucsess = "true";	
 					
 				}
 				

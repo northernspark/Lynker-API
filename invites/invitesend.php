@@ -59,7 +59,7 @@ else {
 	}
 	else {
 		$invited_key = "user_" . generate_key();
-		//$invited_create = mysql_query("INSERT INTO `users` (`user_id`, `user_signup`, `user_updated`, `user_key`, `user_type`, `user_status`, `user_verified`, `user_name`, `user_nickname`, `user_emails`, `user_password`, `user_latitude`, `user_longitude`, `user_gender`, `user_dob`, `user_summary`, `user_profile`, `user_headline`, `user_location`, `user_company`, `user_website`, `user_skype`, `user_phones`, `user_address`, `user_notifications`, `user_invited`) VALUES (NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '$invited_key', 'user', 'invited', 'false', '$passed_name', '', '$passed_email', '', '0.0000000', '0.0000000', '', '0000-00-00 00:00:00.000000', '', '', '', '', '', '', '', '', '', 'email', '$user_primary_email');");
+		$invited_create = mysql_query("INSERT INTO `users` (`user_id`, `user_signup`, `user_updated`, `user_key`, `user_type`, `user_status`, `user_verified`, `user_name`, `user_nickname`, `user_emails`, `user_password`, `user_latitude`, `user_longitude`, `user_gender`, `user_dob`, `user_summary`, `user_profile`, `user_headline`, `user_location`, `user_company`, `user_website`, `user_skype`, `user_phones`, `user_address`, `user_notifications`, `user_invited`) VALUES (NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '$invited_key', 'user', 'invited', 'false', '$passed_name', '', '$passed_email', '', '0.0000000', '0.0000000', '', '0000-00-00 00:00:00.000000', '', '', '', '', '', '', '', '', '', 'email', '$user_primary_email');");
 		
 		if ($invited_create) {
 			$connection_key = "con_" . generate_key();
@@ -68,8 +68,7 @@ else {
 			
 		}
 		else {
-			$json_status =  end(explode("|", $passed_email)) . ' cannot be invited to Lynker as this is a closed beta. This feature will be enabled in the full version.';	
-			//$json_status =  $passed_email . ' not created - unknown error';
+			$json_status =  $passed_email . ' not created - unknown error';
 			$json_output[] = array('status' => $json_status, 'sucsess' => 'false');
 			echo json_encode($json_output);
 			exit;
@@ -81,12 +80,14 @@ else {
 	if ($connection_post) {
 		$notification_message = "[" . $user_name . "] has invited you to connect";
 		$notification_user = array($passed_recipient);
-		$notification_post = post_notification($notification_message, $notification_user, 'invite', 'pending', $user_key);
+		//$notification_post = post_notification($notification_message, $notification_user, 'invite', 'pending', $user_key);
 		
-		//$email_name = explode(" ", $user_name);
-		$email_body = "<strong>" . $user_name . "</strong>  (" . $user_primary_email . ") has invited you to connect on Lynker.</center>";
+		$email_body .= "<strong>" . $user_name . "</strong> (" . $user_primary_email . ") has invited you to connect on Lynker, why not connect with them?<p>";
+		$email_body .= "<div style='margin-top:50px; margin-bottom:30px; font-weight:400; font-size:11px;' align='center'><a href='" . $user_directory . "' target='_blank' style='padding:14px; text-decoration:none; color:white; background-color:#F23E5B; border-radius:4;'>Lynk-up with " . reset(explode(" ", $user_name)) . "</a></div>";
+		//$email_recipient = array($passed_user);
+		$email_recipient = array("joe@northernspark.co.uk");
 		$email_subject = "" . $user_name . " has invited you to connect on Lynker";
-		$email_post = email_user($passed_email, $email_subject, $email_body, 'true');
+		$email_post = email_user($email_recipient, $email_subject, $email_body, 'false');
 		
 		$json_status =  $passed_email . ' invited';
 		$json_output[] = array('status' => $json_status, 'sucsess' => 'true', 'recipt' => $notification_post);

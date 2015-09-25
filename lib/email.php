@@ -8,7 +8,6 @@ function email_user($email_recipient, $email_subject, $email_body, $email_force)
 		$user_notifications = explode(",", $user_preferences['user_notifications']);
 		$user_status = $user_preferences['user_status'];
 		if ($user_status == "active") $user_firstname = reset(explode(" " ,$user_preferences['user_name']));
-		else $user_firstname = "";
 		
 		$corispondence_subject = str_replace("'", "&#39;" ,$email_subject);
 		$corispondence_sender = $user_primary_email;
@@ -23,7 +22,8 @@ function email_user($email_recipient, $email_subject, $email_body, $email_force)
 			$email_formatted .= "<html><body style='margin:0px; padding:0px;'>";
 			$email_formatted .= "<div style='background-color:#FAFAFA; color:#424242; letter-spacing:0px; padding:25px; margin:0px;'>";
 			$email_formatted .= "<img src='http://api.lynkerapp.com/assets/lynkerlogo.png' style='margin-top:10px; margin-bottom:20px; width:140px;'><p>";	
-			$email_formatted .= "Hi <strong>" . $user_firstname . "</strong>,<p>";
+			if (empty($user_firstname)) $email_formatted .= "Hi,<p>";
+			else $email_formatted .= "Hi <strong>" . $user_firstname . "</strong>,<p>";
 			$email_formatted .= $email_body;
 			$email_formatted .= "</div>";
 			$email_formatted .= "<div style='color:#878787; font-size:9px; margin-top:30px; margin-bottom:30px; margin-right:15px; margin-left:15px;' align='center'>";

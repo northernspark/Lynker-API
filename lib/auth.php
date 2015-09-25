@@ -46,6 +46,7 @@ if (!in_array($current_file, $auth_exclude)) {
 		while($row = mysql_fetch_array($auth_query)) {
 			$auth_user = $row['token_user'];
 			$auth_query_user = mysql_query("SELECT * FROM `users` WHERE `user_key` LIKE '$auth_user' AND `user_status` LIKE 'active'");
+			$auth_user_exitsts = mysql_num_rows($auth_user);			
 			while($row = mysql_fetch_array($auth_query_user))  {	
 				$user_emails = explode("," ,$row['user_emails']);
 				$user_primary_email = end(explode("|", $user_emails[0]));
@@ -64,7 +65,7 @@ if (!in_array($current_file, $auth_exclude)) {
 				
 		}
 				
-		if ($auth_sucsess == 0) {
+		if ($auth_sucsess == 0 && $auth_user_exitsts == 1) {
 			header('Content-Type: application/json');
 			
 			$json_status = 'token is invalid';

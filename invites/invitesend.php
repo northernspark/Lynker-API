@@ -39,7 +39,9 @@ else {
 	$recipient_count = mysql_num_rows($recipient_query);
 	$recipient_data = mysql_fetch_assoc($recipient_query);
 	$recipient_key = $recipient_data['user_key'];
+	
 	if ($recipient_count == 1) {
+		$invitation_email[] = end(explode("|" , reset(explode(",", $recipient_data['user_emails']))));
 		$invitation_query = mysql_query("SELECT * FROM `connections` WHERE (`connection_sender_key` LIKE '$recipient_key' AND `connection_recipient_key` LIKE '$user_key') OR (`connection_recipient_key` LIKE '$recipient_key' AND `connection_sender_key` LIKE '$user_key')");
 		$invitation_count = mysql_num_rows($invitation_query);
 		if ($invitation_count == 0) {
@@ -58,6 +60,7 @@ else {
 		
 	}
 	else {
+		$invitation_email[] = $passed_user;	
 		$invited_key = "user_" . generate_key();
 		$invited_create = mysql_query("INSERT INTO `users` (`user_id`, `user_signup`, `user_updated`, `user_key`, `user_type`, `user_status`, `user_verified`, `user_name`, `user_nickname`, `user_emails`, `user_password`, `user_latitude`, `user_longitude`, `user_gender`, `user_dob`, `user_summary`, `user_profile`, `user_headline`, `user_location`, `user_company`, `user_website`, `user_skype`, `user_phones`, `user_address`, `user_notifications`, `user_invited`) VALUES (NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '$invited_key', 'user', 'invited', 'false', '$passed_name', '', '$passed_email', '', '0.0000000', '0.0000000', '', '0000-00-00 00:00:00.000000', '', '', '', '', '', '', '', '', '', 'email', '$user_primary_email');");
 		
@@ -84,10 +87,9 @@ else {
 		
 		$email_body .= "<strong>" . $user_name . "</strong> (" . $user_primary_email . ") has invited you to connect on Lynker, why not connect with them?<p>";
 		$email_body .= "<div style='margin-top:50px; margin-bottom:30px; font-weight:400; font-size:11px;' align='center'><a href='" . $user_directory . "' target='_blank' style='padding:14px; text-decoration:none; color:white; background-color:#F23E5B; border-radius:4;'>Lynk-up with " . reset(explode(" ", $user_name)) . "</a></div>";
-		//$email_recipient = array($passed_user);
-		$email_recipient = array("joe@northernspark.co.uk");
+		$email_recipient = array($passed_user);
 		$email_subject = "" . $user_name . " has invited you to connect on Lynker";
-		$email_post = email_user($email_recipient, $email_subject, $email_body, 'false');
+		$email_post = email_user($invitation_email, $email_subject, $email_body, 'false');
 		
 		$json_status =  $passed_email . ' invited';
 		$json_output[] = array('status' => $json_status, 'sucsess' => 'true', 'recipt' => $notification_post);

@@ -14,7 +14,7 @@ $passed_update = $passed_data['update'];
 $passed_radius = $passed_data['radius'];
 $passed_limit = $passed_data['limit'];
 if (empty($passed_update)) $passed_update = "true";
-if (empty($passed_radius)) $passed_radius = 20.0;
+if (empty($passed_radius)) $passed_radius = 0.1;
 if (empty($passed_limit)) $passed_limit = 20;
 
 $passed_radius = $passed_radius * 1000;

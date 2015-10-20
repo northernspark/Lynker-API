@@ -18,7 +18,7 @@ if (empty($passed_email)) {
 }
 else {
 	$password_new = generate_password();
-	$password_encripted = md5($password_new);
+	$password_encripted = password_hash($password_new ,PASSWORD_BCRYPT);
 	$user_query = mysql_query("SELECT * FROM `users` WHERE  `user_status` LIKE 'active' AND `user_emails` LIKE '%$passed_email%'");
 	$user_count = mysql_num_rows($user_query);
 	if ($user_count == 1) {
@@ -30,8 +30,9 @@ else {
 		
 		$update_query = mysql_query("UPDATE `users` SET `user_updated` = CURRENT_TIMESTAMP, `user_password` = '$password_encripted' WHERE `user_key` LIKE '$user_key';");	
 		if ($update_query) {
-			$email_body .= "</strong>, <p>Here is your new Lynker password. You can change this password in the app settings once logged in.<p><center><h4>>" . $password_new  . "</<h4></center>";
-			$email_post = email_user($passed_email, "Password Reset", $email_body, 'true');
+			$email_address = array($passed_email);
+			$email_body .= "Here is your new Lynker password. You can change this password in the app settings once logged in.<p><center><h4>>" . $password_new  . "</<h4></center><p>";
+			$email_post = email_user($email_address, "Password Reset", $email_body, 'true');
 			
 			$json_status = "Password was reset";
 			$json_output[] = array('status' => $json_status, 'sucsess' => 'true');

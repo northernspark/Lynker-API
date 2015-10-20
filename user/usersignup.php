@@ -14,11 +14,12 @@ $passed_email = $passed_data['email'];
 $passed_name = str_replace("'", "&#39;" ,$passed_data['name']);
 $passed_location = str_replace("'", "&#39;" ,$passed_data['location']);
 $passed_headline = str_replace("'", "&#39;" ,$passed_data['headline']);
-$passed_password = md5($passed_data['password']);
 $passed_bio = str_replace("'", "&#39;" ,$passed_data['description']);
 $passed_website = $passed_data['website'];
 $passed_company = str_replace("'", "&#39;" ,$passed_data['company']);
 $passed_type = $passed_data['type'];
+$passed_password = password_hash($passed_data['password'] ,PASSWORD_BCRYPT);
+
 if (empty($passed_type)) $passed_type = "user";
 
 $user_key = "user_" . generate_key();
@@ -98,7 +99,7 @@ else {
 		//$notification_post = post_notification('Welcome to [Lynker]. Take the tour...', $notification_user, 'welcome', 'viewed', '');
 		
 		$notification_user = array($user_key);
-		$notification_post = post_notification('You are now connected with [Joe Barbour] Co-Founder of [Lynker]. Tap to say hello!', 'user_b4prhitdEHQQvaS5Qu6YmoA5aXTFQLIRFXcM', 'respond', 'viewed', '');
+		$notification_post = post_notification('You are now connected with [Joe Barbour] (Co-Founder of [Lynker]). Tap to say hello!', $notification_user, 'response', 'viewed', 'user_b4prhitdEHQQvaS5Qu6YmoA5aXTFQLIRFXcM');
 		
 		$connection_key = "con_" . generate_key();
 		$connection_query = mysql_query("INSERT INTO `connections` (`connection_id`, `connection_timestamp`, `connection_key`, `connection_sender_key`, `connection_sender_privileges`, `connection_sender_notifications`, `connection_recipient_key`, `connection_recipient_privileges`, `connection_recipient_notifications`, `connection_type`, `connection_hidden`, `connection_status`) VALUES (NULL, CURRENT_TIMESTAMP, '$connection_key', 'user_b4prhitdEHQQvaS5Qu6YmoA5aXTFQLIRFXcM', 'basic,twitter,instagram,angellist,work_email', 'false', '$user_key' ,'basic,work_email', 'false', 'user', 'false', 'accepted');");
@@ -111,7 +112,7 @@ else {
 		$email_address = array(end(explode("|", $user_emails[0])));			
 		$email_name = explode(" ", $passed_name);		
 		$email_body = "Thanks for downloading Lynker!<p>The concept behind Lynker was to reinvent not only the address book but the way people connect and exchange personal details. With that in mind we have come up with a solution we believe to be super easy, fast and even fun!<p>So now you have signed up to Lynker now what you ask? Well we recommend you firstly build up your profile, add your phone number, Skype, Facebook etc and the it's time to start sharing them with people.<p>THEN, it's time to start connecting! You of course can connect with people in you existing address book just by going to invite. You can also invite people by email but the best way is using 'nearby'. Nearby allow you with twos tap to connect with people in close proximity to you. Amazing right?Thanks for downloading Lynker, and if you have any questions please either reply to this email or send a message via the feedback section in the app<p><p>If you have any questions about this email or Lynker in general just reply to this email.<p><p>Kind Regards, <br/> - <strong>Joe</strong> (Co-founder of Lynker)<p><p>";
-		$email_post = email_user($email_address, "Welcome to Lynker", $email_body, 'true');
+		//$email_post = email_user($email_address, "Welcome to Lynker", $email_body, 'true');
 		
 		$json_status =  $passed_email . ' added';
 		$json_output[] = array('status' => $json_status, 'sucsess' => 'true', 'user' => $user_output, 'token' => $token_output , 'emails' => $email_post);

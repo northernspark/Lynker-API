@@ -1,6 +1,6 @@
 <?
 //$database_connect = mysql_connect(':/Applications/MAMP/tmp/mysql/mysql.sock', 'root', 'root');
-$database_connect = mysql_connect('109.169.18.127', 'lynkeradmin', 'getoutmyserver19'); 
+$database_connect = mysql_connect('109.169.18.127', 'ns_admin', 'getoutmyserver19'); 
 
 if (!$database_connect) { 
 	$json_status = 'database not connected';
@@ -65,7 +65,7 @@ if (!in_array($current_file, $auth_exclude)) {
 				
 		}
 				
-		if ($auth_sucsess == 0 && $auth_user_exitsts == 1) {
+		if ($auth_sucsess == 0 && $auth_user_exitsts == 0) {
 			header('Content-Type: application/json');
 			
 			$json_status = 'token is invalid';

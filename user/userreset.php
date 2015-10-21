@@ -31,7 +31,7 @@ else {
 		$update_query = mysql_query("UPDATE `users` SET `user_updated` = CURRENT_TIMESTAMP, `user_password` = '$password_encripted' WHERE `user_key` LIKE '$user_key';");	
 		if ($update_query) {
 			$email_address = array($passed_email);
-			$email_body .= "Here is your new Lynker password. You can change this password in the app settings once logged in.<p><center><h4>>" . $password_new  . "</<h4></center><p>";
+			$email_body .= "Here is your new Lynker password. You can change this password in the app settings once logged in.<p><center><h4>" . $password_new  . "</h4></center><p>";
 			$email_post = email_user($email_address, "Password Reset", $email_body, 'true');
 			
 			$json_status = "Password was reset";

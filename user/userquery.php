@@ -131,7 +131,7 @@ elseif ($connection_count == 1) {
 			
 			if (empty($network_data)) $network_data = array();
 			
-			$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'company' => $company_data, 'basic' => $basics_data, 'skype' => $skype_data, 'scope' => $connection_privileges, 'phone' => $phone_data, 'email' => $email_data, 'address' => $address_data, 'networks' => $network_data, 'location' => $location_data);
+			$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'company' => $company_data, 'basic' => $basics_data, 'skype' => $skype_data, 'scope' => $connection_privileges, 'phone' => $phone_data, 'email' => $email_data, 'address' => $address_data, 'networks' => $network_data, 'location' => $location_data, 'profiles' => $user_profile);
 						
 		}
 		

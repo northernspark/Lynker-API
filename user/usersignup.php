@@ -123,10 +123,10 @@ else {
 	}
 	else {
 		$slack_user = end(explode("|", $user_emails[0]));	
-		$slack_message = "*User Signup Error:* '" . $passed_email . " not added - unknown error'/n*SQL:*" . $user_insert;
+		$slack_message = "*User Signup Error:* '" . $slack_user . " not added - unknown error'/n*SQL:*" . $user_insert;
 		$slack_post = post_slack($slack_message, 'development', '');
 		
-		$json_status =  $passed_email . ' not added - unknown error';
+		$json_status =  $slack_user . ' not added - unknown error';
 		$json_output[] = array('status' => $json_status, 'sucsess' => 'false');
 		echo json_encode($json_output);
 		exit;

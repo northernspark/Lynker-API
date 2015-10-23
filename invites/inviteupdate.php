@@ -55,7 +55,7 @@ else {
 				else {
 					foreach ($passed_updated as $value) {
 						if ($value == end($passed_parameters))  $notification_updated .= " and " . str_replace("_", " ", $value) . "";
-						else if ($value == $passed_parameters[1]) $notification_updated .= "" . str_replace("_", " ", $value) . "";
+						else if ($value == $passed_parameters[0]) $notification_updated .= "" . str_replace("_", " ", $value) . "";
 						else $notification_updated .= ", " . str_replace("_", " ", $value) . "";
 						
 					}

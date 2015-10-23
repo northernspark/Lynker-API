@@ -24,7 +24,7 @@ else {
 		
 	}
 	else {
-		$search_query = mysql_query("SELECT * FROM `companies` WHERE `company_key` LIKE '$passed_identifyer' LIMIT 0, 1");
+		$search_query = mysql_query("SELECT * FROM `companies` WHERE `company_key` LIKE '%$passed_identifyer%' LIMIT 0, 1");
 		$search_results = mysql_num_rows($search_query);
 		
 	}
@@ -45,7 +45,8 @@ else {
 		$company_angellist = $row['company_angellist'];
 		$company_facebook = explode(",", $row['company_facebook']);
 		$company_instagram = explode(",", $row['company_instagram']);
-		
+		$company_directory = "http://lynkerapp.com/company/" . substr(end(explode("_", $row['company_key'])) , 0, 11);	
+				
 		if ($passed_employees == "true") {
 			$employee_query = mysql_query("SELECT * FROM `users` WHERE `user_status` LIKE 'active' AND (`user_company` LIKE '$company_key' OR `user_headline` LIKE '%$company_name%' OR `user_emails` LIKE '%$company_domain%') AND `user_key` NOT LIKE '$auth_user' LIMIT 0, 50");
 			$employee_count = mysql_num_rows($employee_query);
@@ -99,7 +100,7 @@ else {
 		
 		$company_networks = array('twitter' => $company_twitter, 'linkedin' => $company_linkedin ,'angellist' => $company_angellist, 'facebook' => $company_facebook, 'instagram' => $company_instagram);	
 		if ($passed_employees == "true") $company_output[] = array('key' => $company_key, 'name' => $company_name, 'location' => $company_location, 'office' => $company_office, 'logo' => $company_logo, 'description' => $company_summary, 'website' => $company_website, 'networks' => $company_networks, 'employees' => $emplyee_output, 'phone' => $company_contact, 'cover' => $company_cover, 'domain' => $company_domain);
-		else $company_output[] = array('key' => $company_key, 'name' => $company_name, 'logo' => $company_logo, 'cover' => $company_cover, 'networks' => $company_networks);
+		else $company_output[] = array('key' => $company_key, 'name' => $company_name, 'logo' => $company_logo, 'cover' => $company_cover, 'networks' => $company_networks, 'directory' => $company_directory);
 		
 	}
 	

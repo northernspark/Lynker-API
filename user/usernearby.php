@@ -14,10 +14,8 @@ $passed_update = $passed_data['update'];
 $passed_radius = $passed_data['radius'];
 $passed_limit = $passed_data['limit'];
 if (empty($passed_update)) $passed_update = "true";
-if (empty($passed_radius)) $passed_radius = 0.1;
+if (empty($passed_radius)) $passed_radius = 0.3;
 if (empty($passed_limit)) $passed_limit = 20;
-
-$passed_radius = $passed_radius * 1000;
 
 if (empty($passed_data['latlng'])) {
 	$json_status = 'coordinates requred';
@@ -33,7 +31,7 @@ else {
 		
 	}
 	if ($user_update || $passed_update != "false") {		
-		$nearby_expiry = date('Y-m-d H:i:s', strtotime('-4 minutes'));
+		$nearby_expiry = date('Y-m-d H:i:s', strtotime('-8 minutes'));
 		$nearby_query = mysql_query("SELECT z.user_updated, z.user_key, z.user_name, z.user_latitude, z.user_longitude, z.user_profile, z.user_headline, z.user_company, z.user_location, p.distance_unit * DEGREES(ACOS(COS(RADIANS(p.latpoint)) * COS(RADIANS(z.user_latitude)) * COS(RADIANS(p.longpoint) - RADIANS(z.user_longitude)) + SIN(RADIANS(p.latpoint)) * SIN(RADIANS(z.user_latitude)))) AS distance_in_km FROM users AS z JOIN (SELECT $passed_latitude AS latpoint, $passed_longitude AS longpoint, $passed_radius AS radius, 111.045 AS distance_unit) AS p ON 1=1 WHERE z.user_latitude BETWEEN p.latpoint - (p.radius / p.distance_unit) AND p.latpoint + (p.radius / p.distance_unit) AND z.user_longitude BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) AND  `user_key` NOT LIKE '$user_key' AND `user_latitude` != 0 AND `user_longitude` != 0 AND `user_updated` > '$nearby_expiry' ORDER BY distance_in_km LIMIT $passed_limit");
 		$nearby_count = mysql_num_rows($nearby_query);
 		while($row = mysql_fetch_array($nearby_query)) {	
@@ -52,7 +50,7 @@ else {
 			$company_name =  str_replace("&#39;", "'" ,$company_data['company_name']);
 			if (empty($company_name)) $company_name = "";
 						
-			$nearby_coordinates = array('lat' => $nearby_latitude, 'lng' => $nearby_longitude);
+			$nearby_coordinates = array('lat' => $nearby_latitude, 'lng' => $nearby_longitude, 'radius' => $passed_radius);
 			$nearby_data[] = array('name' => $nearby_name, 'profile' => $nearby_profile[0], 'key' => $nearby_key, 'location' => $nearby_location, 'headline' => $nearby_headline, 'updated' => $nearby_lastupdated ,'coordinates' => $nearby_coordinates, 'company' => $company_name);
 			
 		}

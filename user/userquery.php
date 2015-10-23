@@ -54,7 +54,7 @@ elseif ($connection_count == 1) {
 			$user_gender = $row['user_gender'];			
 			$user_dob = $row['user_dob'];			
 			$user_bio = trim($row['user_summary']);				
-			$user_profile = explode(",", $row['user_profile']);			
+			$user_profile = explode(",", str_replace("_normal", "", $row['user_profile']));			
 			$user_headline = $row['user_headline'];				
 			$user_website = $row['user_website'];				
 			$user_skype = $row['user_skype'];				

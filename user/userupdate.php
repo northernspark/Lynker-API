@@ -48,6 +48,8 @@ else {
 			
 		}
 		
+		if ($key == "user_password") $passed_variable = password_hash($passed_variable ,PASSWORD_BCRYPT);	
+		
 		if (empty($passed_variable)) {
 			$item_status = $key . ' was null (' . $variable[0];
 			$item_output[] = array('status' => $item_status, 'sucsess' => 'true');

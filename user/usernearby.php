@@ -28,7 +28,8 @@ else {
 	$user_coorinates = implode(",", $passed_coordinates);
 	if ($passed_update == "true") {
 		$user_update = mysql_query("UPDATE `users` SET `user_updated` = CURRENT_TIMESTAMP, `user_latitude` = '$passed_latitude', `user_longitude` = '$passed_longitude' WHERE `user_key` LIKE '$user_key';");
-		
+		$location_update = mysql_query("INSERT INTO `location` (`location_id`, `location_timestamp`, `location_user`, `location_latitude`, `location_longitude`) VALUES (NULL, CURRENT_TIMESTAMP, '$user_key', '$passed_latitude', '$passed_longitude');");
+				
 	}
 	if ($user_update || $passed_update != "false") {		
 		$nearby_expiry = date('Y-m-d H:i:s', strtotime('-8 minutes'));

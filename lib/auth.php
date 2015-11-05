@@ -41,7 +41,7 @@ $device_name = str_replace("'", "&#39;" ,$session_headers["HTTP_LK_DEVICENAME"])
 $device_type = str_replace("'", "&#39;" ,$session_headers["HTTP_LK_DEVICETYPE"]);
 $device_push = $session_headers["HTTP_LK_PUSH"];
 
-$auth_exclude = array('userexists.php', 'usersignup.php', 'userlogin.php', 'userreset.php', 'companyupload.php');
+$auth_exclude = array('userexists.php', 'usersignup.php', 'userlogin.php', 'userreset.php', 'companyupload.php', 'usernamechecker.php');
 $auth_token = $session_headers["HTTP_LK_ACCESS"];
 
 $current_parts = explode('?', $_SERVER["REQUEST_URI"]);

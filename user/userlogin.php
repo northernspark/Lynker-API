@@ -84,7 +84,7 @@ else {
 				
 				$user_contacts = array('skype' => $user_skype, 'address' => $user_address, 'phones' => $user_phones, 'emails' => $user_emails);
 				$user_details = array('dob' => $user_dob ,'location' => $user_location, 'summary' => $user_bio, 'gender' => $user_gender, 'profile' => $user_profile, 'headline' => $user_headline, 'website' => $user_website);
-				$user_name = array('fullname' => $user_name, 'firstname' => $user_names[0], 'lastname' => $user_names[1]);
+				$user_name = array('fullname' => $user_name, 'firstname' => $user_names[0], 'lastname' => $user_names[1], 'nickname' => $user_nickname);
 				$user_data = array('key' => $user_key, 'name' => $user_name, 'type' => $user_type, 'about' => $user_details, 'company' => $company_data, 'contact' => $user_contacts, 'notifications' => $user_notifications, 'networks' => $user_networks, 'directory' => $user_directory);
 			}
 			else {

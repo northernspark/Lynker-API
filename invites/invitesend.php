@@ -82,8 +82,8 @@ else {
 	
 	if ($connection_post) {
 		$notification_message = "[" . $user_name . "] has invited you to connect";
-		$notification_user = array($passed_recipient);
-		//$notification_post = post_notification($notification_message, $notification_user, 'invite', 'pending', $user_key);
+		$notification_user = array($passed_recipient);		
+		$notification_post = post_notification($notification_message, $notification_user, 'invite', 'pending', $user_key);	
 		
 		$email_body .= "<strong>" . $user_name . "</strong> (" . $user_primary_email . ") has invited you to connect on Lynker, why not connect with them?<p>";
 		$email_body .= "<div style='margin-top:50px; margin-bottom:30px; font-weight:400; font-size:11px;' align='center'><a href='" . $user_directory . "' target='_blank' style='padding:14px; text-decoration:none; color:white; background-color:#F23E5B; border-radius:4;'>Lynk-up with " . reset(explode(" ", $user_name)) . "</a></div>";

@@ -1,8 +1,13 @@
 <?
 //$database_connect = mysql_connect(':/Applications/MAMP/tmp/mysql/mysql.sock', 'root', 'root');
-$database_connect = mysql_connect('109.169.18.127', 'ns_admin', 'getoutmyserver19'); 
+$database_connect = mysql_connect('109.169.18.127', 'lynkeradmin', 'getoutmyserver19'); 
 
 if (!$database_connect) { 
+	include 'slack.php';
+	
+	$slack_message = "*Auth Error* Could not login to database with stored credentails";
+	$slack_post = post_slack($slack_message, 'development', '');
+	
 	$json_status = 'database not connected';
     $json_output[] = array('status' => $json_status, 'sucsess' => 'false');
 	echo json_encode($json_output);
@@ -10,8 +15,20 @@ if (!$database_connect) {
 	
 } 
 
-mysql_select_db("lynkerdb");
-
+$database_table = mysql_select_db("lynkerdb");
+if (!$database_table) { 
+	include 'slack.php';
+	
+	$slack_message = "*Auth Error* Could not find database 'lynkerdb'";
+	$slack_post = post_slack($slack_message, 'development', '');
+	
+	$json_status = 'table not connected';
+    $json_output[] = array('status' => $json_status, 'sucsess' => 'false');
+	echo json_encode($json_output);
+	exit;
+	
+}
+		
 $session_timestamp = date("Y-m-d H:i:s");
 $session_headers = $_SERVER;
 $session_ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -24,7 +41,7 @@ $device_name = str_replace("'", "&#39;" ,$session_headers["HTTP_LK_DEVICENAME"])
 $device_type = str_replace("'", "&#39;" ,$session_headers["HTTP_LK_DEVICETYPE"]);
 $device_push = $session_headers["HTTP_LK_PUSH"];
 
-$auth_exclude = array('userexists.php', 'usersignup.php', 'userlogin.php', 'userreset.php', 'companyupload.php');
+$auth_exclude = array('userexists.php', 'usersignup.php', 'userlogin.php', 'userreset.php', 'companyupload.php', 'usernamechecker.php');
 $auth_token = $session_headers["HTTP_LK_ACCESS"];
 
 $current_parts = explode('?', $_SERVER["REQUEST_URI"]);

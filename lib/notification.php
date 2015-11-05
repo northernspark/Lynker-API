@@ -1,7 +1,7 @@
 <?
 
 function post_notification($message, $users, $type, $status, $data) { 
-	if (count($users) > 49) return array('status' => 'users limited too 50', 'sucsess' => 'false' ,'users' => $users);
+	if (count($users) > 49) return $output[] = array('status' => 'users limited too 50', 'sucsess' => 'false' ,'users' => $users);
 	else {
 		foreach ($users as $notification_user){
 			if (strlen($notification_user) > 1) {
@@ -30,8 +30,7 @@ function post_notification($message, $users, $type, $status, $data) {
 								$device_token = $row['device_token'];
 								$device_message = str_replace("&#39;", "'", $message);
 																
-								
-								if (in_array('push', $user_notificationstype)) {	
+								//if (in_array('push', $user_notificationstype)) {	
 									$payload['aps'] = array('alert' => $device_message, 'sound' => 'default', 'type' => $notification_type, 'data' => $notification_data);
 									$payload = json_encode($payload);
 									
@@ -55,34 +54,29 @@ function post_notification($message, $users, $type, $status, $data) {
 									
 									fclose($apns);
 								
-								}
+									return $output[] = array('status' => 'notification added', 'sucsess' => 'true', 'message' => $message, 'users' => $notification_user, 'payload' => $device_data, 'push' => $device_token);	
+																							
+								//}
+								//else return array('status' => 'notification added - push notifications disbled', 'sucsess' => 'true', 'message' => $message, 'users' => $notification_user, 'payload' => $payload);	
 											
 							}	
 							
 						}
-						
-									
 						
 					}
 					
 				}
 				else {
 					$add_notification = mysql_query("UPDATE `notifications` SET `notification_timestamp` = CURRENT_TIMESTAMP, `notification_status` = 'pending' WHERE `notification_key` LIKE '$existing_key';");
-					if	($add_notification) $add_sucsess = "true";	
-					
+					return $output[] = array('status' => 'notification updated', 'sucsess' => 'true', 'message' => $message, 'users' => $notification_user);	
+										
 				}
 				
 			}
-	
 			
 		}
 		
-		if ($add_sucsess == "true") return array('status' => 'notification added', 'sucsess' => 'true');	
-		else return array('status' => 'notification not added - unknown error', 'sucsess' => 'false');	
-		
-	}
-	
-	
+	}	
 	
 }
 

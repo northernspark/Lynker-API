@@ -1,6 +1,6 @@
 <?
 
-$instagram_parameters = array('grant_type' => 'authorization_code', 'client_id' => 'b882fcd5c3ce4ce8a886b1375721294e', 'client_secret' => 'e2cc83ca126742ef8eb09ff0f9668095', 'redirect_uri' => 'http://api.lynkerapp.com/networks/instagram.php', 'code' => $_GET['code']);
+$instagram_parameters = array('grant_type' => 'authorization_code', 'client_id' => '', 'client_secret' => '', 'redirect_uri' => 'http://api.lynkerapp.com/networks/instagram.php', 'code' => $_GET['code']);
 
 $instagram_url = 'https://api.instagram.com/oauth/access_token';
 

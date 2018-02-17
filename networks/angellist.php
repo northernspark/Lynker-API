@@ -1,6 +1,6 @@
 <?
 
-$angel_parameters = array('grant_type' => 'authorization_code', 'client_id' => 'c94731429c53bcc60eb9dc464d7b386e6ed5e310c71b8d4d', 'client_secret' => 'd4312364a7628b4175a843cf9424c2a2adb6e3615aba6ea3', 'code' => $_GET['code']);
+$angel_parameters = array('grant_type' => 'authorization_code', 'client_id' => '', 'client_secret' => '', 'code' => $_GET['code']);
 
 $angel_url = 'https://angel.co/api/oauth/token';
 
